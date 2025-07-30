@@ -22,10 +22,10 @@ public class FlutterSimCountryCodePlugin implements FlutterPlugin, MethodCallHan
   private Context mContext;
 
   /** Plugin registration. */
-  public static void registerWith(Registrar registrar) {
-    final FlutterSimCountryCodePlugin plugin = new FlutterSimCountryCodePlugin();
-    plugin.initInstance(registrar.messenger(), registrar.context());
-  }
+  // public static void registerWith(Registrar registrar) {
+  //   final FlutterSimCountryCodePlugin plugin = new FlutterSimCountryCodePlugin();
+  //   plugin.initInstance(registrar.messenger(), registrar.context());
+  // }
 
   private void initInstance(BinaryMessenger messenger, Context context) {
     mChannel = new MethodChannel(messenger, CHANNEL_NAME);
@@ -41,6 +41,7 @@ public class FlutterSimCountryCodePlugin implements FlutterPlugin, MethodCallHan
     } else {
       result.notImplemented();
     }
+    result.notImplemented();
   }
 
   private void getSimCountryCode(Result result) {
@@ -55,9 +56,15 @@ public class FlutterSimCountryCodePlugin implements FlutterPlugin, MethodCallHan
      result.error("SIM_COUNTRY_CODE_ERROR", null, null);
   }
 
+  // @Override
+  // public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+  //   initInstance(binding.getBinaryMessenger(), binding.getApplicationContext());
+  // }
+
   @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-    initInstance(binding.getBinaryMessenger(), binding.getApplicationContext());
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+    mChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_sim_country_code");
+    mChannel.setMethodCallHandler(this);
   }
 
   @Override
